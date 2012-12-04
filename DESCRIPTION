@@ -1,0 +1,12 @@
+Package: richest
+Type: Package
+Title: Richness estimator 
+Version: 1.0
+Date: 2009-03-02
+Author: Christopher Durden
+Maintainer: <cdurden@cgb.indiana.edu>
+Description: none
+License: What license is it under?
+LazyLoad: no
+LazyData: yes
+Depends: methods

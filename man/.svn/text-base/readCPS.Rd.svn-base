@@ -1,0 +1,22 @@
+\name{readCPS}
+\alias{readSPC}
+\title{Read species abundance data}
+\description{Generates a "richestSPC" or "richestCPS" object by reading a corresponding data table}
+\usage{
+  readCPS(file)
+  readSPC(file)  
+}
+\arguments{
+  \item{file}{A character string giving the name of the species abundance file.}
+}
+\details{
+  If "file" is a "counts per species" file, i.e. the first column is a species identifier and the second column counts the number of times the species occured in the sample, then use "readCPS".
+  If "file" is a "species per counts" file, i.e. the first column gives an abundance value, and the second column indicates the number of species which occur in the sample with that abundance value, then use "readSPC".
+}
+\references{ }
+\author{Christopher Durden, Center for Genomics and Bioinformatics, Indiana University}
+\seealso{ richest }
+\examples{
+## read CPS data
+cps = readCPS("data/sargassoSeaOTUcountsUnique.txt")
+}
