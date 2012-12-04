@@ -1,2 +1,0 @@
-PKG_LIBS=-lRblas -lpari -L/opt/lib
-PKG_CFLAGS=-g -O0 -I/opt/include
