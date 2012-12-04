@@ -7,7 +7,7 @@ GEN PoissonMixtureEMSpeciesPerCount(GEN MixingF0, GEN tSpeciesPerCount, int nCou
   GEN PrNorm = zerovec(nCounts);
   GEN PrNorm_j;
   GEN vPi1_i,vLambda1_i;
-//  pari_sp ltop0,lbot0,ltop1,lbot1;
+  pari_sp ltop1;
   int i,j;
 
   gel(MixingF1,1) = zerovec(nSupportPoints);
@@ -28,16 +28,13 @@ GEN PoissonMixtureEMSpeciesPerCount(GEN MixingF0, GEN tSpeciesPerCount, int nCou
             ),
             mpfactr(itos(gel(gel(tSpeciesPerCount,1),j)),DEFAULTPREC)
           )
-          //
         )
       );
     }
-//    ltop1 = avma;
     PrNorm_j = gen_0;
     for(i=1;i<=nSupportPoints;i++) { // calc. sum of Pr(i|...
       PrNorm_j = gadd(PrNorm_j,gel(gel(Pr,j),i));
     }
-//    gel(PrNorm,j) = gerepileupto(ltop1,PrNorm_j);
     gel(PrNorm,j) = PrNorm_j;
     for(i=1;i<=nSupportPoints;i++) { // calc. sum of Pr(i|...
       gel(gel(Pr,j),i) = gdiv(gel(gel(Pr,j),i),gel(PrNorm,j));
@@ -46,7 +43,6 @@ GEN PoissonMixtureEMSpeciesPerCount(GEN MixingF0, GEN tSpeciesPerCount, int nCou
   for(i=1;i<=nSupportPoints;i++) { // calc. new parameters
     vPi1_i = gen_0;
     vLambda1_i = gen_0;
-//    ltop1 = avma;
     for(j=1;j<=nCounts;j++) {
       vPi1_i = gadd(
         vPi1_i,
@@ -66,9 +62,7 @@ GEN PoissonMixtureEMSpeciesPerCount(GEN MixingF0, GEN tSpeciesPerCount, int nCou
         )
       );
     }
-//    lbot1 = avma;
     vLambda1_i = gdiv(vLambda1_i,vPi1_i);
-//    vPi1_i = gerepile(ltop1,lbot1,gdiv(vPi1_i,stoi(nSpecies)));
     vPi1_i = gdiv(vPi1_i,stoi(nSpecies));
     gel(gel(MixingF1,1),i)=vLambda1_i;
     gel(gel(MixingF1,2),i)=vPi1_i;
@@ -81,7 +75,7 @@ GEN PoissonMixtureEM(GEN MixingF0, GEN vSpeciesCounts, int nSupportPoints, int n
   GEN PrNorm = zerovec(nSpecies);
   GEN PrNorm_j;
   GEN vPi1_i,vLambda1_i;
-//  pari_sp ltop0,lbot0,ltop1,lbot1;
+  pari_sp ltop1;
   int i,j;
 
   gel(MixingF1,1) = zerovec(nSupportPoints);
@@ -106,12 +100,10 @@ GEN PoissonMixtureEM(GEN MixingF0, GEN vSpeciesCounts, int nSupportPoints, int n
         )
       );
     }
-//    ltop1 = avma;
     PrNorm_j = gen_0;
     for(i=1;i<=nSupportPoints;i++) { // calc. sum of Pr(i|...
       PrNorm_j = gadd(PrNorm_j,gel(gel(Pr,j),i));
     }
-//    gel(PrNorm,j) = gerepileupto(ltop1,PrNorm_j);
     gel(PrNorm,j) = PrNorm_j;
     for(i=1;i<=nSupportPoints;i++) { // calc. sum of Pr(i|...
       gel(gel(Pr,j),i) = gdiv(gel(gel(Pr,j),i),gel(PrNorm,j));
@@ -120,14 +112,11 @@ GEN PoissonMixtureEM(GEN MixingF0, GEN vSpeciesCounts, int nSupportPoints, int n
   for(i=1;i<=nSupportPoints;i++) { // calc. new parameters
     vPi1_i = gen_0;
     vLambda1_i = gen_0;
-//    ltop1 = avma;
     for(j=1;j<=nSpecies;j++) {
       vPi1_i = gadd(vPi1_i,gel(gel(Pr,j),i));
       vLambda1_i = gadd(vLambda1_i,gmul(gel(vSpeciesCounts,j),gel(gel(Pr,j),i)));
     }
-//    lbot1 = avma;
     vLambda1_i = gdiv(vLambda1_i,vPi1_i);
-//    vPi1_i = gerepile(ltop1,lbot1,gdiv(vPi1_i,stoi(nSpecies)));
     vPi1_i = gdiv(vPi1_i,stoi(nSpecies));
     gel(gel(MixingF1,1),i)=vLambda1_i;
     gel(gel(MixingF1,2),i)=vPi1_i;
@@ -179,7 +168,6 @@ GEN Likelihood = gen_0;
       LikelihoodInnerSum = gerepileupto(ltop1,
         gadd(
           LikelihoodInnerSum,
-//          gmul(gel(gel(tSpeciesPerCount,2),j),
             gdiv(
               gmul(
                 gmul(
@@ -190,7 +178,6 @@ GEN Likelihood = gen_0;
               ),
               mpfactr(itos(gel(gel(tSpeciesPerCount,1),j)),DEFAULTPREC)
             )
-//          )
         )
       );
     }
@@ -218,7 +205,6 @@ GEN FindMLE(GEN vSpeciesCounts, int nSupportPoints, int nSpecies) {
     gel(gel(MixingF,2),i) = Recip_n;
   }
   it = 0;
-//  while(gcmp(gsub(L1,L0),gsub(gen_0,gmul(dbltor(0.00001),L1)))>=0 && it <= 1000) {
   while(gcmp(gsub(L1,L0),gsub(gen_0,gmul(dbltor(0.00001),L1)))>=0) {
     L0 = L1;
     for(i=1;i<=2;i++) {
@@ -287,20 +273,17 @@ SEXP R_FindMLESpeciesPerCount(SEXP R_sSpeciesPerCount1, SEXP R_sSpeciesPerCount2
   GEN MixingF;
   GEN tSpeciesPerCount;
 
-  printf("%i\n",*nSpecies);
-  printf("%i\n",*nCounts);
-  printf("%i\n",*nSupportPoints);
-  printf("%s\n",sSpeciesPerCount1);
-  printf("%s\n",sSpeciesPerCount2);
-//  pari_init(800000000,0);
+//  printf("%i\n",*nSpecies);
+//  printf("%i\n",*nCounts);
+//  printf("%i\n",*nSupportPoints);
+//  printf("%s\n",sSpeciesPerCount1);
+//  printf("%s\n",sSpeciesPerCount2);
   tSpeciesPerCount = zerovec(2);
   gel(tSpeciesPerCount,1) = gp_read_str(sSpeciesPerCount1);
   gel(tSpeciesPerCount,2) = gp_read_str(sSpeciesPerCount2);
   MixingF = FindMLESpeciesPerCount(tSpeciesPerCount,*nCounts,*nSupportPoints,*nSpecies);
   R_MixingF = R_NilValue;
   if(gcmp0(MixingF)) {
-//    pari_close();
-//    return(R_NilValue);
   } else {
     PROTECT(R_MixingF = allocVector(REALSXP,2*(*nSupportPoints)));
     for(i=1;i<=*nSupportPoints;i++) {
@@ -308,12 +291,8 @@ SEXP R_FindMLESpeciesPerCount(SEXP R_sSpeciesPerCount1, SEXP R_sSpeciesPerCount2
       REAL(R_MixingF)[*nSupportPoints+i-1] = gtodouble(gel(gel(MixingF,2),i));
     }
     UNPROTECT(1);
-//    pari_close();
-//    return(R_MixingF); 
   }
-//  return(R_NilValue);
   return(R_MixingF);
-//  pari_close();
 }
 SEXP R_FindMLE(SEXP R_sSpeciesCounts, SEXP R_nSupportPoints, SEXP R_nSpecies) {
   int* nSpecies = INTEGER(R_nSpecies);
@@ -323,9 +302,8 @@ SEXP R_FindMLE(SEXP R_sSpeciesCounts, SEXP R_nSupportPoints, SEXP R_nSpecies) {
   int i;
   GEN MixingF;
 
-  printf("%i\n",*nSpecies);
-  printf("%s\n",sSpeciesCounts);
-//  pari_init(10000000,0);
+//  printf("%i\n",*nSpecies);
+//  printf("%s\n",sSpeciesCounts);
   GEN vSpeciesCounts = gp_read_str(sSpeciesCounts);
   MixingF = FindMLE(vSpeciesCounts,*nSupportPoints,*nSpecies);
   R_MixingF = R_NilValue;
@@ -338,7 +316,6 @@ SEXP R_FindMLE(SEXP R_sSpeciesCounts, SEXP R_nSupportPoints, SEXP R_nSpecies) {
     }
     UNPROTECT(1);
   }
-//  pari_close();
   return(R_MixingF); 
 }
 
@@ -350,28 +327,3 @@ SEXP close_pari() {
   pari_close();
   return(R_NilValue);
 }
-
-/*
-int main() {
-//  pari_init(800000000,500000);
-  int nSupportPoints = 3;
-  int nSpecies = 3;
-//  GEN Likelihood = CalcLikelihood(vSpeciesCounts,vLambda,vPi,nSupportPoints,nSpecies);
-  GEN a,b;
-  int i,j;
-  init_pari();
-  GEN M = zerovec(nSpecies);
-  pari_sp ltop0,lbot0,ltop1;
-//  GEN MixingF = FindMLE(vSpeciesCounts,nSupportPoints,nSpecies);
-  for(i=1;i<=2;i++) {
-    for(j=1;j<=nSupportPoints;j++) {
-//      printf("%f ",gtodouble(gel(gel(MixingF,i),j)));
-    }
-    printf("\n");
-  }
-//  printf("%f\n",gtodouble(Likelihood));
-  printf("%i\n",gcmp(gsub(gen_0,gen_0),gsub(gen_0,gmul(dbltor(0.001),gen_0)))>=0);
-  pari_close();
-  return(1);
-}
-*/
