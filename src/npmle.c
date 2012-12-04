@@ -7,7 +7,7 @@ GEN PoissonMixtureEMSpeciesPerCount(GEN MixingF0, GEN tSpeciesPerCount, int nCou
   GEN PrNorm = zerovec(nCounts);
   GEN PrNorm_j;
   GEN vPi1_i,vLambda1_i;
-  pari_sp ltop0,lbot0,ltop1,lbot1;
+//  pari_sp ltop0,lbot0,ltop1,lbot1;
   int i,j;
 
   gel(MixingF1,1) = zerovec(nSupportPoints);
@@ -81,7 +81,7 @@ GEN PoissonMixtureEM(GEN MixingF0, GEN vSpeciesCounts, int nSupportPoints, int n
   GEN PrNorm = zerovec(nSpecies);
   GEN PrNorm_j;
   GEN vPi1_i,vLambda1_i;
-  pari_sp ltop0,lbot0,ltop1,lbot1;
+//  pari_sp ltop0,lbot0,ltop1,lbot1;
   int i,j;
 
   gel(MixingF1,1) = zerovec(nSupportPoints);
@@ -244,7 +244,7 @@ GEN FindMLESpeciesPerCount(GEN tSpeciesPerCount, int nCounts, int nSupportPoints
     printf("Error: number of support points is greater than the number of observed species abundances.\n");
     return(gen_0);
   }
-  int i, j, it;
+  int i, it;
   pari_sp ltop0,lbot;
   GEN L0 = gen_0;
   GEN L1 = gen_0;
